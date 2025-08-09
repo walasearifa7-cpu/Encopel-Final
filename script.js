@@ -1,47 +1,41 @@
-async function extrairTexto(file) {
-  const { data: { text } } = await Tesseract.recognize(file, 'por');
-  return text;
-}
-
-function compararListas(lista1, lista2) {
-  const set1 = new Set(lista1);
-  const set2 = new Set(lista2);
-
-  const novos = [...set2].filter(item => !set1.has(item));
-  const ausentes = [...set1].filter(item => !set2.has(item));
-  const iguais = [...set1].filter(item => set2.has(item));
-
-  return { novos, ausentes, iguais };
-}
-
-async function compararImagens() {
-  const img1 = document.getElementById("img1").files[0];
-  const img2 = document.getElementById("img2").files[0];
-  const resultado = document.getElementById("resultado");
+document.getElementById('comparar').addEventListener('click', async () => {
+  const img1 = document.getElementById('imagem1').files[0];
+  const img2 = document.getElementById('imagem2').files[0];
+  const resultadoDiv = document.getElementById('resultado');
 
   if (!img1 || !img2) {
-    resultado.textContent = "Envie as duas imagens!";
+    alert('Por favor, selecione as duas imagens.');
     return;
   }
 
-  resultado.textContent = "Extraindo textos...";
+  resultadoDiv.innerHTML = 'Processando imagens...';
 
-  const texto1 = await extrairTexto(img1);
-  const texto2 = await extrairTexto(img2);
+  try {
+    const texto1 = await extrairTexto(img1);
+    const texto2 = await extrairTexto(img2);
 
-  const linhas1 = texto1.split("\n").map(l => l.trim()).filter(l => l);
-  const linhas2 = texto2.split("\n").map(l => l.trim()).filter(l => l);
+    const lista1 = texto1.split(/\r?\n/).map(l => l.trim()).filter(l => l);
+    const lista2 = texto2.split(/\r?\n/).map(l => l.trim()).filter(l => l);
 
-  const { novos, ausentes, iguais } = compararListas(linhas1, linhas2);
+    const novos = lista2.filter(item => !lista1.includes(item));
+    const removidos = lista1.filter(item => !lista2.includes(item));
+    const iguais = lista1.filter(item => lista2.includes(item));
 
-  resultado.innerHTML = `
-    <h3>Itens Iguais:</h3>
-    ${iguais.join("<br>") || "Nenhum"}<br><br>
+    resultadoDiv.innerHTML = `
+      <h3>Itens novos:</h3>
+      <pre>${novos.join("\n") || "Nenhum"}</pre>
+      <h3>Itens removidos:</h3>
+      <pre>${removidos.join("\n") || "Nenhum"}</pre>
+      <h3>Itens iguais:</h3>
+      <pre>${iguais.join("\n") || "Nenhum"}</pre>
+    `;
+  } catch (error) {
+    resultadoDiv.innerHTML = 'Erro ao processar imagens.';
+    console.error(error);
+  }
+});
 
-    <h3>Itens Novos:</h3>
-    ${novos.join("<br>") || "Nenhum"}<br><br>
-
-    <h3>Itens Ausentes:</h3>
-    ${ausentes.join("<br>") || "Nenhum"}
-  `;
+async function extrairTexto(file) {
+  const { data: { text } } = await Tesseract.recognize(file, 'por');
+  return text;
 }
