@@ -4,8 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Encopel Comparador</title>
+
+  <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Manifest e ícones -->
   <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icon-512.png">
+
+  <!-- Biblioteca OCR -->
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
 </head>
 <body>
@@ -25,6 +33,15 @@
 
   <div id="resultado"></div>
 
+  <!-- Scripts -->
   <script src="script.js"></script>
+  <script>
+    // Registro do Service Worker para PWA e Share Target
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('Service Worker registrado com sucesso.'))
+        .catch(err => console.error('Erro ao registrar Service Worker:', err));
+    }
+  </script>
 </body>
 </html>
