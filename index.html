@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Encopel Comparador</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
 </head>
 <body>
   <h1>Encopel Comparador de Pedidos</h1>
-  
-  <div class="upload-area">
-    <label>Imagem 1:
-      <input type="file" id="img1" accept="image/*">
-    </label>
-    <label>Imagem 2:
-      <input type="file" id="img2" accept="image/*">
-    </label>
-    <button onclick="compararImagens()">Comparar</button>
+
+  <div>
+    <label>Imagem 1:</label>
+    <input type="file" id="imagem1" accept="image/*">
   </div>
 
-  <div id="resultado">Aguardando imagens...</div>
+  <div>
+    <label>Imagem 2:</label>
+    <input type="file" id="imagem2" accept="image/*">
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+  <button id="comparar">Comparar</button>
+
+  <div id="resultado"></div>
+
   <script src="script.js"></script>
 </body>
 </html>
