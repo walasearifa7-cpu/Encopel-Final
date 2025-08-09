@@ -1,7 +1,7 @@
 {
   "name": "Encopel Comparador",
   "short_name": "Encopel",
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#007BFF",
